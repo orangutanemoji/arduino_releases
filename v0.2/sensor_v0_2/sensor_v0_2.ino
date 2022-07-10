@@ -48,6 +48,7 @@
   const char apn[]  = "hologram";     //SET TO YOUR APN
   const char gprsUser[] = "";
   const char gprsPass[] = "";
+  String unit_name = "unit_" + UNIT_NUMBER
   String DEVICE_KEYS[] = {"be75%RzU","R{#fvKLL","gJrxNYe5","F?,[UW)h","])^YRD,_","DPR^w}V$",
                           "cKB}Q9>8","i6i0C_jx","EMIO$uF>","w=t9]UCj","DpTtQ4Gn","mNW(h)[K"};
   String device_key = String(DEVICE_KEYS[UNIT_NUMBER]);
@@ -557,7 +558,7 @@ void sendData(String k, String d, String t){
  */
 String buildPayload(String coordinates, int highest_pin){
   // Sorry for this disaster of a string, not really much of a choice
-  String output = "\"{\\\"coordinates\\\":\\\"" + coordinates + "\\\",\\\"highest_pin\\\":\\\"" + String(highest_pin) + "[GPIO " + String(SENSOR_PINS[highest_pin]) + "]" + "\\\",\\\"pin_percent\\\":\\\"" + String(SENSOR_LEVELS[highest_pin]) + "\\\"}\"";
+  String output = "\"{\\\"coordinates\\\":\\\"" + coordinates + "\\\",\\\"highest_pin\\\":\\\"" + unit_name + " " + String(highest_pin) + "[GPIO " + String(SENSOR_PINS[highest_pin]) + "]" + "\\\",\\\"pin_percent\\\":\\\"" + String(SENSOR_LEVELS[highest_pin]) + "\\\"}\"";
   return output;
 }
 
