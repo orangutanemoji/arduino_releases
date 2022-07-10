@@ -558,7 +558,7 @@ void sendData(String k, String d, String t){
  */
 String buildPayload(String coordinates, int highest_pin){
   // Sorry for this disaster of a string, not really much of a choice
-  String output = "\"{\\\"coordinates\\\":\\\"" + coordinates + "\\\",\\\"highest_pin\\\":\\\"" + unit_name + " " + String(highest_pin) + "[GPIO " + String(SENSOR_PINS[highest_pin]) + "]" + "\\\",\\\"pin_percent\\\":\\\"" + String(SENSOR_LEVELS[highest_pin]) + "\\\"}\"";
+  String output = "\"{\\\"coordinates\\\":\\\"" + coordinates + "\\\",\\\"highest_pin\\\":\\\"" + unit_name + " - pin " + String(highest_pin) + "[GPIO " + String(SENSOR_PINS[highest_pin]) + "]" + "\\\",\\\"pin_percent\\\":\\\"" + String(SENSOR_LEVELS[highest_pin]) + "\\\"}\"";
   return output;
 }
 
