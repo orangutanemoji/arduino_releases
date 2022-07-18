@@ -17,13 +17,6 @@
   int SENSOR_PINS[] = {32, 33, 34, 35, 21, 22};
   int SENSOR_LEVELS[] = {10, 25, 50, 75, 100, 200};
 
-// Import Libraries
-  #include <TinyGsmClient.h>
-  #include <SPI.h>
-  #include <SD.h>
-  #include <Ticker.h>
-  //#include <SoftwareSerial.h>
-
 // Declare environment variables
   #define TINY_GSM_MODEM_SIM7000
   #define TINY_GSM_RX_BUFFER 1024 // Set RX buffer to 1Kb
@@ -42,13 +35,20 @@
   #define SD_CS       13
   #define LED_PIN     12
   #define SENSOR_PIN  32
-
+  
+// Import Libraries
+  #include <TinyGsmClient.h>
+  #include <SPI.h>
+  #include <SD.h>
+  #include <Ticker.h>
+  //#include <SoftwareSerial.h>
+ 
 // GPRS credentials
   #define GSM_PIN ""
   const char apn[]  = "hologram";     //SET TO YOUR APN
   const char gprsUser[] = "";
   const char gprsPass[] = "";
-  String unit_name = "unit_" + UNIT_NUMBER
+  String unit_name = "unit_" + String(UNIT_NUMBER);
   String DEVICE_KEYS[] = {"be75%RzU","R{#fvKLL","gJrxNYe5","F?,[UW)h","])^YRD,_","DPR^w}V$",
                           "cKB}Q9>8","i6i0C_jx","EMIO$uF>","w=t9]UCj","DpTtQ4Gn","mNW(h)[K"};
   String device_key = String(DEVICE_KEYS[UNIT_NUMBER]);
@@ -558,7 +558,8 @@ void sendData(String k, String d, String t){
  */
 String buildPayload(String coordinates, int highest_pin){
   // Sorry for this disaster of a string, not really much of a choice
-  String output = "\"{\\\"coordinates\\\":\\\"" + coordinates + "\\\",\\\"highest_pin\\\":\\\"" + unit_name + " - pin " + String(highest_pin) + "[GPIO " + String(SENSOR_PINS[highest_pin]) + "]" + "\\\",\\\"pin_percent\\\":\\\"" + String(SENSOR_LEVELS[highest_pin]) + "\\\"}\"";
+  String output = "\"{\\\"coordinates\\\":\\\"" + coordinates + "\\\",\\\"highest_pin\\\":\\\"" + unit_name +                  
+                  "\\\",\\\"pin_percent\\\":\\\"" + String(SENSOR_LEVELS[highest_pin]) + "\\\"}\"";
   return output;
 }
 
@@ -580,10 +581,12 @@ int highestPin(){
  */
 void loop() {
   // test for pin triggered
+  
+    digitalWrite(LED_PIN, LOW);
     if (highestPin() >= 0) {
       Serial.println("Sensor triggered");
       
-      digitalWrite(LED_PIN, LOW);
+      digitalWrite(LED_PIN, HIGH);
       
       // begin 3s polling duration and test for highest pin during duration
         Serial.println("Begin polling");
@@ -637,7 +640,7 @@ void loop() {
       delay(10000);
       Serial.println("end 10 second delay");
       
-      while (digitalRead(SENSOR_PIN) == HIGH){
+      while (highestPin() >= 0){
         Serial.println("sensor still high (wait 5 seconds)");
         delay(5000);
       }
